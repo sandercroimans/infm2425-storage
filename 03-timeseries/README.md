@@ -10,6 +10,8 @@
 > Bijvoorbeeld, als je naar de folder `C:\Users\me\Downloads\03-timeseries` wil gaan, 
 > en je staat al in `C:\Users\me`, dan typ je `cd Downloads\03-timeseries`.
 > Het volstaat waarschijnlijk om `cd Dow<tab>\03<tab>` te typen.
+>
+> Indien je naar de bovenliggende folder wil gaan, typ je `cd ..`. Bijvoorbeld, als je in `C:\Users\me\Downloads\03-timeseries` staat en `cd ..` typt, ga je naar `C:\Users\me\Downloads`.
 
 2. Start alle Docker containers via
 `docker compose up --build` in de folder van deze README. Dit start 4 containers die met mekaar communiceren, namelijk
