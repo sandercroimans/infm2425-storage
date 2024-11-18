@@ -8,9 +8,9 @@
 > Navigeren naar een folder kan je doen met het commando `cd`.
 > Tip: gebruik de Tab-toets om het pad aan te vullen.
 > 
-> Bijvoorbeeld, als je naar de folder `C:\Users\me\Downloads\03-timeseries` wil gaan, 
-> en je staat al in `C:\Users\me`, dan typ je `cd Downloads\03-timeseries`.
-> Het volstaat waarschijnlijk om `cd Dow<tab>\03<tab>` te typen.
+> Bijvoorbeeld, als je naar de folder `C:\Users\me\Downloads\02-nosql` wil gaan, 
+> en je staat al in `C:\Users\me`, dan typ je `cd Downloads\02-nosql`.
+> Het volstaat waarschijnlijk om `cd Dow<tab>\02<tab>` te typen.
 
 2. Surf naar [http://localhost:8081](http://localhost:8081) en login als `admin` met wachtwoord `pass`
 
