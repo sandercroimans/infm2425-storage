@@ -50,8 +50,8 @@ Kan je terugvinden hoe de data uit MQTT omgezet wordt in fields en tags?
 ### Oefening 3
 
 1. Surf naar [http://localhost:8086](http://localhost:8086) en login als `admin` met wachtwoord `password`.
-2. Zet 'View Raw Data' aan.
-3. Ga naar de 'Data Explorer' tab, en klik op 'SCRIPT EDITOR'.
+2. Ga naar de 'Data Explorer' tab, en zet 'View Raw Data' aan.
+3. Klik op 'SCRIPT EDITOR'.
 4. Doe een query om alle data van de laatste 30 seconden te bekijken:
 ```flux
 from(bucket: "timeseries")
