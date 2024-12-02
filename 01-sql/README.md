@@ -34,10 +34,10 @@ De database gaat over films; je ziet links in Beekeeper een lijst met de tabelle
 ## Oefeningen deel 1: SELECT
 
 ### Oefening 1
-Selecteer alle films.
+Selecteer alle films. // select * from movies 
 
 ### Oefening 2
-Selecteer de titel en jaar van alle films die **na** het jaar 2000 uitgebracht zijn.
+Selecteer de titel en jaar van alle films die **na** het jaar 2000 uitgebracht zijn. // select title, release_year from movies where release_year > 2000
 
 | title           | release_year |
 | --------------- | ------------ |
@@ -46,7 +46,10 @@ Selecteer de titel en jaar van alle films die **na** het jaar 2000 uitgebracht z
 | The Dark Knight | 2008         |
 
 ### Oefening 3
-Selecteer de titel en het jaar alle films die **voor** het jaar 2000 uitgebracht zijn, **en** die het genre 'Sci-Fi' hebben, gesorteerd op titel.
+Selecteer de titel en het jaar alle films die **voor** het jaar 2000 uitgebracht zijn, **en** die het genre 'Sci-Fi' hebben, gesorteerd op titel.// SELECT title, release_year 
+FROM movies 
+WHERE release_year < 2000 AND genre = 'Sci-Fi' 
+ORDER BY title
 
 | title      | release_year |
 | ---------- | ------------ |
@@ -58,8 +61,10 @@ Selecteer de titel en het jaar alle films die **voor** het jaar 2000 uitgebracht
 ### Oefening 4
 Selecteer van alle films de titel, de naam van hun regisseur, en hun jaartal, gesorteerd op naam van de regisseur en vervolgens op jaartal.
 
-| name                 | release_year | title                    |
-| -------------------- | ------------ | ------------------------ |
+| name                 | release_year | title                    |    // SELECT title, name, release_year from movies LEFT JOIN directors on 
+								     movies.director_id = directors.director_id
+							             ORDER by name, release_year; 
+| -------------------- | ------------ | ------------------------ | 
 | Christopher Nolan    | 2008         | The Dark Knight          |
 | Christopher Nolan    | 2010         | Inception                |
 | David Fincher        | 1999         | Fight Club               |
@@ -75,7 +80,7 @@ Selecteer van alle films de titel, de naam van hun regisseur, en hun jaartal, ge
 ### Oefening 5
 Selecteer van alle films en alle ratings (dus ook de ratings zonder film in de database) de titel van de film en de rating.
 
-| title                    | rating |
+| title                    | rating | // select title, rating from movies full outer join ratings on movies.rating_id = ratings.rating_id
 | ------------------------ | ------ |
 | null                     | G      |
 | null                     | NC-17  |
@@ -94,8 +99,8 @@ Selecteer van alle films en alle ratings (dus ook de ratings zonder film in de d
 ### Oefening 6
 Selecteer alle films de titel en de actor_id van de acteurs die erin meespelen.
 
-| title                    | actor_id |
-| ------------------------ | -------- |
+| title                    | actor_id |  // select title, actor_id from movies left outer join movie_actor on movies.movie_id = movie_actor.movie_id
+| ------------------------ | -------- |  
 | Avatar                   | 22       |
 | Avatar                   | 24       |
 | Avatar                   | 23       |
@@ -130,7 +135,7 @@ Selecteer alle films de titel en de actor_id van de acteurs die erin meespelen.
 Selecteer alle films de titel en naam van de acteurs die erin meespelen.
 Bijvoorbeeld:
 
-| title                    | name                 |
+| title                    | name                 | // select title, name from movies left join movie_actor on movies.movie_id = movie_actor.movie_id left                  join actors on movie_actor.actor_id = actors.actor_id order by title 
 | ------------------------ | -------------------- |
 | Avatar                   | Sam Worthington      |
 | Avatar                   | Sigourney Weaver     |
@@ -165,6 +170,13 @@ Bijvoorbeeld:
 ### Oefening 8
 Selecteer alle films met een 'PG-13' of 'R'-rating. Geef van elke film de titel, naam van de regisseur, en de rating terug.
 
+//SELECT movies.title,directors.name, ratings.rating
+FROM movies
+INNER JOIN ratings ON movies.rating_id = ratings.rating_id
+INNER JOIN directors on movies.director_id = directors.director_id
+WHERE ratings.rating IN ('PG-13', 'R')
+
+
 ## Oefeningen deel 3: INSERT, UPDATE, DELETE
 
 ### Oefening 9
@@ -173,8 +185,21 @@ Voeg je favoriete film en acteurs toe aan de database.
 > *Opgelet: je moet de gegevens invoeren in de juiste volgorde, zodat je geen verwijzingen creëert naar niet-bestaande rijen.
 Dus eerst acteurs en regisseurs, dan de film zelf, en helemaal op het einde de rijen in de junction tables.*
 
+//insert into movies (movie_id, title)
+VALUES
+(11, 'Fast and the Furious')
+
+
+
 ### Oefening 10
 Pas de beschrijving van de rating 'G' aan naar 'Everyone'.
+// update ratings
+set rating = 'Ever'
+where rating = 'G'
+
 
 ### Oefening 11
 Verwijder alle films van voor 1995 uit de tabel.
+// delete from movies 
+where release_year < 1995
+
