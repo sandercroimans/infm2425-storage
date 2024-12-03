@@ -60,19 +60,29 @@ from(bucket: "timeseries")
 
 ### Oefening 4
 
-Hoeveel tabellen zitten er in het resultaat van oefening 3? (Kijk naar de eerste kolom in het resultaat)
+Hoeveel tabellen zitten er in het resultaat van oefening 3? (Kijk naar de eerste kolom in het resultaat) // 5 
 
 ### Oefening 5
 
-Maak een query die de gemiddelde waarde van *alle sensoren* van de laatste 30 seconden teruggeeft.
+Maak een query die de gemiddelde waarde van *alle sensoren* van de laatste 30 seconden teruggeeft. // from(bucket: "timeseries")
+|> range(start: -30s)
+|> filter(fn: (r) => r._field == "value")
+|> mean()
 
 ### Oefening 6
 
-Maak een query die, van de laatste 5 minuten in periodes van 30 seconden, de gemiddelde waarde van *alle sensoren* teruggeeft.
+Maak een query die, van de laatste 5 minuten in periodes van 30 seconden, de gemiddelde waarde van *alle sensoren* teruggeeft.// from(bucket: "timeseries")
+  |> range(start: -5m)
+  |> filter(fn: (r) => r._field == "value")
+  |> aggregateWindow(every: 30s, fn: mean)
 
 ### Oefening 7
 
-Maak een query die, van de laatste 5 minuten in periodes van 30 seconden, de gemiddelde temperatuur gemeten door `water_temp_sensor_01` in elk van die periodes teruggeeft.
+Maak een query die, van de laatste 5 minuten in periodes van 30 seconden, de gemiddelde temperatuur gemeten door `water_temp_sensor_01` in elk van die periodes teruggeeft. // from(bucket: "timeseries")
+  |> range(start: -5m)
+  |> filter(fn: (r) => r._field == "value")
+  |> filter(fn: (r) => r.deviceid == "water_temp_sensor_01")
+  |> aggregateWindow(every: 30s, fn: mean)
 
 ### Oefening 8
 
@@ -80,7 +90,11 @@ Zet 'View Raw Data' uit. Je ziet nu het resultaat als een grafiek in plaats van 
 
 ### Oefening 9
 
-Maak een query (en grafiek) die het *moving average* van het waterniveau weergeeft, telkens gebaseerd op de laatste 10 metingen.
+Maak een query (en grafiek) die het *moving average* van het waterniveau weergeeft, telkens gebaseerd op de laatste 10 metingen. // from(bucket: "timeseries")
+  |> range(start: -10m)
+  |> filter(fn: (r) => r._field == "value")
+  |> filter(fn: (r) => r.deviceid == "water_level_sensor_01")
+  |> movingAverage(n: 10)
 
 ### Oefening 10
 
@@ -98,4 +112,18 @@ InfluxDB heeft ook een makkelijkere manier om queries te bouwen.
     - en tenslotte 'Aggregate function' op **mean**.
 
 3. Druk op submit en bekijk het resultaat.
-4. Bedenk welke query je hier uitvoert. 
+4. Bedenk welke query je hier uitvoert.  // 
+from(bucket: "timeseries")
+  |> range(start: -15m)
+  |> filter(fn: (r) => r._measurement == "factory")
+  |> filter(fn: (r) => r.type == "sensor")
+  |> filter(fn: (r) => r._field == "value")
+  |> aggregateWindow(every: 5s, fn: mean)
+
+from(bucket: "timeseries")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "factory")
+  |> filter(fn: (r) => r["type"] == "sensor")
+  |> filter(fn: (r) => r["_field"] == "value")
+  |> aggregateWindow(every: 5s, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
